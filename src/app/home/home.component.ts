@@ -16,7 +16,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit() {
-    const numbers = Observable.interval(1000); // This observable with trigger every second.
+    const numbers = Observable.interval(1000)
+    // Map operator allows us to transform the observable data before returning it
+      .map((data: number) => {
+        return data * 2;
+      }
+    ); // This observable with trigger every second.
 
     this.numberSubscription = numbers.subscribe(
       (number: number) => {
@@ -24,7 +29,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     );
 
-    const observable = Observable.create(
+    const myObservable = Observable.create(
       // Your asynchronous code
       (observer: Observer<string>) => {
         // First string triggers every 2 seconds
@@ -47,7 +52,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           }, 6000);
       });
 
-    this.observableSubscription = observable.subscribe(
+    this.observableSubscription = myObservable.subscribe(
       (data: string) => { console.log(`data: ${data}`); },
       (error: string) => { console.log(`error: ${error}`); },
       () => { console.log(`completed`); },
